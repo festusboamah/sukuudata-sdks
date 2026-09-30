@@ -9,6 +9,6 @@ Ghana's schools, the 2026 GES SHS placement register and CSSPS school-choice val
 """
 
 from ._client import Page, RateLimit, SukuuData, SukuuDataError
+from ._version import __version__
 
-__all__ = ["SukuuData", "SukuuDataError", "Page", "RateLimit"]
-__version__ = "0.1.0"
+__all__ = ["SukuuData", "SukuuDataError", "Page", "RateLimit", "__version__"]

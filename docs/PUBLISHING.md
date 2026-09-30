@@ -3,20 +3,28 @@
 Everything here is built and tested in this repo. Publishing needs accounts that belong to SukuuData / Nerds IV
 Technologies, so these steps are run by the owner.
 
-## Easiest: publish from GitHub (works from a phone)
+## Releasing (one tap, works from a phone)
 
-One-time setup:
+Actions → **Release** → Run workflow, then choose:
 
-1. **npm**: at npmjs.com → your avatar → Access Tokens → Generate New Token → Granular Access Token, with
-   read and write permission on packages (for the first release, "all packages"). Copy it, then in this GitHub repo:
-   Settings → Secrets and variables → Actions → New repository secret, named `NPM_TOKEN`.
-2. **PyPI**: at pypi.org → Your account → Publishing → Add a new pending publisher (GitHub): project name
-   `sukuudata`, owner `festusboamah`, repository `sukuudata-sdks`, workflow `release.yml`, environment `pypi`.
+- **bump**: `patch` for fixes (0.1.0 → 0.1.1), `minor` for new features (0.1.1 → 0.2.0), `major` for breaking changes
+  (0.2.0 → 1.0.0), or `none` to republish the current version.
+- **target**: `both` (usual), `npm` or `pypi`.
 
-Then each release: Actions → **Release** → Run workflow → choose `both`, `npm` or `pypi`. Bump the versions first
-(see below); npm and PyPI refuse to publish the same version twice.
+The workflow sets both packages to the same new version, commits "Release vX.Y.Z", tags `vX.Y.Z`, runs the tests and
+publishes. Both registries use trusted publishing, so no tokens are needed.
 
-## npm: `sukuudata` (js/)
+One-time setup (already done for PyPI):
+
+- **PyPI**: pypi.org → Your account → Publishing → trusted publisher (GitHub): project `sukuudata`, owner
+  `festusboamah`, repository `sukuudata-sdks`, workflow `release.yml`, environment `pypi`.
+- **npm**: npmjs.com → package `sukuudata` → Settings → Trusted Publisher → GitHub Actions: organization or user
+  `festusboamah`, repository `sukuudata-sdks`, workflow filename `release.yml`. Once a release has worked this way,
+  delete the `NPM_TOKEN` repository secret and the token on npmjs.com.
+
+## Manual publishing (from a computer)
+
+### npm (js/)
 
 One-time: create an account at npmjs.com (enable 2FA), then `npm login`.
 
@@ -28,7 +36,7 @@ npm publish            # prepublishOnly runs typecheck, tests and build first
 
 For a new version: bump `version` in `js/package.json` (semver), then `npm publish` again.
 
-## PyPI: `sukuudata` (python/)
+### PyPI (python/)
 
 One-time: create an account at pypi.org (enable 2FA) and an API token (Account settings → API tokens).
 
@@ -39,8 +47,7 @@ python -m build
 python -m twine upload dist/*     # username: __token__, password: the pypi-... token
 ```
 
-For a new version: bump `version` in `pyproject.toml` and in `src/sukuudata/__init__.py`, delete `dist/`, rebuild,
-upload.
+For a new version: bump `src/sukuudata/_version.py`, delete `dist/`, rebuild, upload.
 
 ## Postman public workspace
 

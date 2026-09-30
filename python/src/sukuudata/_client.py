@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Callable, Dict, Iterator, List, Optional, Sequence, Union
 
+from ._version import __version__
+
 DEFAULT_BASE_URL = "https://api.sukuudata.com"
 
 Params = Dict[str, Any]
@@ -104,7 +106,7 @@ class SukuuData:
         if query:
             url += "?" + urllib.parse.urlencode(query)
         headers = {"X-API-Key": self._api_key, "Accept": "application/json",
-                   "User-Agent": "sukuudata-python/0.1.0"}
+                   "User-Agent": f"sukuudata-python/{__version__}"}
         data = None
         if json_body is not None:
             data = json.dumps(json_body).encode()

@@ -1,10 +1,18 @@
 name: Release
 
-# Publishes the packages. Run it from GitHub: Actions → Release → Run workflow.
-# npm uses the NPM_TOKEN repository secret; PyPI uses trusted publishing (no token).
+# One tap from GitHub: Actions → Release → Run workflow.
+# It bumps both packages to the same new version, commits and tags it (vX.Y.Z), then publishes.
+# Both registries use trusted publishing (no tokens): npm via its Trusted Publisher setting,
+# PyPI via its trusted publisher (environment "pypi"). NPM_TOKEN is only a fallback while npm's
+# setting isn't configured.
 on:
   workflow_dispatch:
     inputs:
+      bump:
+        description: "Version bump: patch = fixes, minor = new features, major = breaking changes, none = republish current"
+        type: choice
+        options: [patch, minor, major, none]
+        default: patch
       target:
         description: "What to publish"
         type: choice
@@ -14,28 +22,70 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
-  npm:
-    if: inputs.target == 'both' || inputs.target == 'npm'
+  version:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      id-token: write # npm provenance
-    defaults:
-      run:
-        working-directory: js
+      contents: write # push the version commit and tag
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
+      sha: ${{ steps.bump.outputs.sha }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - id: bump
+        env:
+          BUMP: ${{ inputs.bump }}
+        run: |
+          set -euo pipefail
+          if [ "$BUMP" != "none" ]; then
+            (cd js && npm version "$BUMP" --no-git-tag-version >/dev/null)
+          fi
+          VERSION=$(node -p "require('./js/package.json').version")
+          printf '__version__ = "%s"\n' "$VERSION" > python/src/sukuudata/_version.py
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -am "Release v$VERSION"
+            git tag "v$VERSION"
+            git push origin HEAD --tags
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "### Releasing v$VERSION" >> "$GITHUB_STEP_SUMMARY"
+
+  npm:
+    needs: version
+    if: inputs.target == 'both' || inputs.target == 'npm'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # trusted publishing and provenance
+    defaults:
+      run:
+        working-directory: js
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.version.outputs.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
           registry-url: "https://registry.npmjs.org"
+      - run: npm install -g npm@latest # trusted publishing needs npm 11.5+
       - run: npm ci
       - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   pypi:
+    needs: version
     if: inputs.target == 'both' || inputs.target == 'pypi'
     runs-on: ubuntu-latest
     environment: pypi
@@ -46,6 +96,8 @@ jobs:
         working-directory: python
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.version.outputs.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
