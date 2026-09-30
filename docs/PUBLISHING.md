@@ -3,6 +3,19 @@
 Everything here is built and tested in this repo. Publishing needs accounts that belong to SukuuData / Nerds IV
 Technologies, so these steps are run by the owner.
 
+## Easiest: publish from GitHub (works from a phone)
+
+One-time setup:
+
+1. **npm**: at npmjs.com → your avatar → Access Tokens → Generate New Token → Granular Access Token, with
+   read and write permission on packages (for the first release, "all packages"). Copy it, then in this GitHub repo:
+   Settings → Secrets and variables → Actions → New repository secret, named `NPM_TOKEN`.
+2. **PyPI**: at pypi.org → Your account → Publishing → Add a new pending publisher (GitHub): project name
+   `sukuudata`, owner `festusboamah`, repository `sukuudata-sdks`, workflow `release.yml`, environment `pypi`.
+
+Then each release: Actions → **Release** → Run workflow → choose `both`, `npm` or `pypi`. Bump the versions first
+(see below); npm and PyPI refuse to publish the same version twice.
+
 ## npm: `sukuudata` (js/)
 
 One-time: create an account at npmjs.com (enable 2FA), then `npm login`.
