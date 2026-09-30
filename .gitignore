@@ -3,3 +3,12 @@ dist/
 __pycache__/
 *.egg-info/
 .env
+
+# AI assistant instructions stay local
+CLAUDE.md
+claude.md
+AGENTS.md
+AGENT.md
+agents.md
+agent.md
+.claude/
