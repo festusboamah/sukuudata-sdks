@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sukuudata"
+version = "0.1.0"
+description = "Official client for the SukuuData API: Ghana's schools, the 2026 GES SHS placement register and CSSPS choice validation."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+authors = [{ name = "Nerds IV Technologies", email = "hello@sukuudata.com" }]
+keywords = ["ghana", "schools", "education", "shs", "bece", "cssps", "placement", "api"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Topic :: Education",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://sukuudata.com"
+Documentation = "https://sukuudata.com/quickstart"
+"API reference" = "https://api.sukuudata.com/docs"
+Source = "https://github.com/festusboamah/sukuudata-sdks/tree/main/python"
+Issues = "https://github.com/festusboamah/sukuudata-sdks/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sukuudata"]

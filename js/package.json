@@ -1,0 +1,56 @@
+{
+  "name": "sukuudata",
+  "version": "0.1.0",
+  "description": "Official client for the SukuuData API: Ghana's schools, the 2026 GES SHS placement register and CSSPS choice validation.",
+  "keywords": [
+    "ghana",
+    "schools",
+    "education",
+    "shs",
+    "bece",
+    "cssps",
+    "placement",
+    "api",
+    "sukuudata"
+  ],
+  "homepage": "https://sukuudata.com/quickstart",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/festusboamah/sukuudata-sdks.git",
+    "directory": "js"
+  },
+  "author": "Nerds IV Technologies (https://nerdsiv.com)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "bugs": {
+    "url": "https://github.com/festusboamah/sukuudata-sdks/issues"
+  }
+}

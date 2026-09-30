@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SHS School Picker — built on SukuuData</title>
+  <meta name="description" content="Find senior high schools a BECE candidate can attend and check their eight CSSPS choices against the 2026 rules.">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <strong>SHS School Picker</strong>
+      <span class="muted">Example app built on the <a href="https://sukuudata.com">SukuuData API</a></span>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <section aria-labelledby="find-title">
+      <h1 id="find-title">Find schools</h1>
+      <form id="filters" class="card">
+        <fieldset>
+          <legend>Candidate</legend>
+          <label><input type="radio" name="studentGender" value="FEMALE" checked> Girl</label>
+          <label><input type="radio" name="studentGender" value="MALE"> Boy</label>
+        </fieldset>
+        <label>Programme
+          <select name="programme" id="programme" required><option value="">Loading…</option></select>
+        </label>
+        <label>Region
+          <select name="region" id="region"><option value="">All regions</option></select>
+        </label>
+        <label>Residential status
+          <select name="residential">
+            <option value="">Day or boarding</option>
+            <option value="BOARDING">Offers boarding</option>
+            <option value="DAY">Offers day</option>
+          </select>
+        </label>
+        <div class="row">
+          <button type="button" id="locate" class="secondary">Use my location</button>
+          <span id="locationNote" class="muted small" aria-live="polite">Optional: sorts by distance and checks day schools are within reach.</span>
+        </div>
+        <button type="submit" class="primary">Show schools</button>
+      </form>
+
+      <p id="resultsNote" class="muted" aria-live="polite"></p>
+      <ul id="results" class="results"></ul>
+      <button type="button" id="more" class="secondary" hidden>Show more</button>
+    </section>
+
+    <aside aria-labelledby="choices-title">
+      <div class="card sticky">
+        <h2 id="choices-title">Your 8 choices</h2>
+        <p class="muted small" id="counts">0 of 8 · 0 boarding (max 5) · 0 day (max 3)</p>
+        <ol id="choices" class="choices"></ol>
+        <p id="emptyChoices" class="muted small">Add schools from the list. Order matters: your first choice is your most preferred.</p>
+        <button type="button" id="check" class="primary" disabled>Check my choices</button>
+        <div id="verdict" aria-live="polite"></div>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="wrap muted small">
+    School data: 2026 GES register and CSSPS guidelines via <a href="https://sukuudata.com">SukuuData</a>. Always confirm on the official CSSPS portal before submitting.
+  </footer>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

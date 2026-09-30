@@ -1,0 +1,15 @@
+{
+  "name": "sukuudata-school-picker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Example app: help a BECE candidate find eligible senior high schools and check their eight CSSPS choices, built on the SukuuData API.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "sukuudata": "^0.1.0"
+  }
+}
