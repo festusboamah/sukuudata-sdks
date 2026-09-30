@@ -2,9 +2,8 @@ name: Release
 
 # One tap from GitHub: Actions → Release → Run workflow.
 # It bumps both packages to the same new version, commits and tags it (vX.Y.Z), then publishes.
-# Both registries use trusted publishing (no tokens): npm via its Trusted Publisher setting,
-# PyPI via its trusted publisher (environment "pypi"). NPM_TOKEN is only a fallback while npm's
-# setting isn't configured.
+# Both registries use trusted publishing (no tokens): npm via the package's Trusted Publisher
+# (festusboamah/sukuudata-sdks, release.yml), PyPI via its trusted publisher (environment "pypi").
 on:
   workflow_dispatch:
     inputs:
@@ -81,8 +80,6 @@ jobs:
       - run: npm install -g npm@latest # trusted publishing needs npm 11.5+
       - run: npm ci
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   pypi:
     needs: version

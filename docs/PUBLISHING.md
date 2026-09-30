@@ -18,9 +18,9 @@ One-time setup (already done for PyPI):
 
 - **PyPI**: pypi.org → Your account → Publishing → trusted publisher (GitHub): project `sukuudata`, owner
   `festusboamah`, repository `sukuudata-sdks`, workflow `release.yml`, environment `pypi`.
-- **npm**: npmjs.com → package `sukuudata` → Settings → Trusted Publisher → GitHub Actions: organization or user
-  `festusboamah`, repository `sukuudata-sdks`, workflow filename `release.yml`. Once a release has worked this way,
-  delete the `NPM_TOKEN` repository secret and the token on npmjs.com.
+- **npm** (done 2026-09-30): npmjs.com → package `sukuudata` → Settings → Trusted Publisher → GitHub Actions:
+  `festusboamah` / `sukuudata-sdks`, workflow `release.yml`, "Allow npm publish" ticked. Publishing access is set to
+  require 2FA and disallow tokens, so no npm token exists or is needed.
 
 ## Manual publishing (from a computer)
 
