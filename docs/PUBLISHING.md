@@ -51,6 +51,10 @@ For a new version: bump `src/sukuudata/_version.py`, delete `dist/`, rebuild, up
 
 ## Postman public workspace
 
+Done 2026-09-30: public workspace **SukuuData**, collection imported, docs published at
+https://documenter.getpostman.com/view/58644905/2sBYHNVhYX. After regenerating the collection, re-import it and
+re-publish the docs.
+
 `postman/SukuuData.postman_collection.json` is generated from the live OpenAPI spec, with an `apiKey` collection
 variable and a valid example body for choice validation.
 

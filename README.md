@@ -7,7 +7,7 @@ placement register, and CSSPS school-choice validation.
 |---|---|---|
 | **JavaScript / TypeScript** | `npm install sukuudata` | [`js/`](js) |
 | **Python** | `pip install sukuudata` | [`python/`](python) |
-| **Postman collection** | Import the file | [`postman/`](postman) |
+| **Postman collection** | [Public docs and collection](https://documenter.getpostman.com/view/58644905/2sBYHNVhYX) | [`postman/`](postman) |
 | **Example app**: SHS School Picker | `cd examples/school-picker` | [`examples/school-picker/`](examples/school-picker) |
 
 Get a free API key (1,000 requests a month) at [sukuudata.com/register](https://sukuudata.com/register).
@@ -34,6 +34,7 @@ page = sukuu.secondary_schools.list(programme="502", residential="BOARDING")
 - [Quickstart](https://sukuudata.com/quickstart)
 - [SHS placement API guide](https://sukuudata.com/placement-api)
 - [API reference](https://api.sukuudata.com/docs) and [OpenAPI spec](https://api.sukuudata.com/docs/json)
+- [Postman documentation](https://documenter.getpostman.com/view/58644905/2sBYHNVhYX)
 
 ## Contributing
 
